@@ -1,0 +1,1 @@
+贡献指南 ## 分支规范 - main: 主分支（仅合并经过测试的代码） - dev: 开发分支（所有功能开发基于此分支） ## 提交规范 提交信息格式：type: 描述（如 feat: 新增文件上传接口） type可选：feat(功能)/fix(修复)/docs(文档)/style(格式)/refactor(重构) ## PR流程 1. 从dev分支创建功能分支（如 feature/file-upload） 2. 开发完成后提交PR到dev分支 3. 至少1人评审通过后合并
