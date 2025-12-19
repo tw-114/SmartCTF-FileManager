@@ -1,0 +1,36 @@
+version: "3.9"
+
+services:
+  db:
+    image: postgres:16
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: smartctf
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres -d smartctf"]
+      interval: 2s
+      timeout: 3s
+      retries: 30
+
+  backend:
+    build: .
+    restart: unless-stopped
+    environment:
+      DATABASE_URL: postgresql+psycopg2://postgres:postgres@db:5432/smartctf
+      JWT_SECRET: "change_me_in_prod"
+      JWT_EXPIRE_MINUTES: "10080"
+      FILE_STORAGE_PATH: /data/files
+      DB_MAX_TRIES: "60"
+    volumes:
+      - ./data:/data
+    ports:
+      - "8000:8000"
+    depends_on:
+      - db
+
+volumes:
+  pgdata:
